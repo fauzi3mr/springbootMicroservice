@@ -25,19 +25,19 @@ public class InventoryService {
     }
 
     public Product updateProductQuantity(Long productId, int quantity) {
-        Product product = productRepository.getById(productId);
+        Product product = productRepository.findById(productId).orElse(new Product());
         int newQuantity = product.getQuantity() + quantity;
         product.setQuantity(newQuantity);
         return productRepository.save(product);
     }
 
     public int getProductAvailability(Long productId) {
-        Product product = productRepository.getById(productId);
+        Product product = productRepository.findById(productId).orElse(new Product());
         return product.getQuantity();
     }
 
     public String orderProduct(Long productId, int quantity) {
-        Product product = productRepository.getById(productId);
+        Product product = productRepository.findById(productId).orElse(new Product());
         String result;
         double price = 0;
 
@@ -54,7 +54,7 @@ public class InventoryService {
             }
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            e.getLocalizedMessage();
             return "Unable to find Product";
         }
     }
